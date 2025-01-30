@@ -18,8 +18,8 @@ describe("[POST] /register", () => {
     await request(server)
       .post("/api/auth/register")
       .send({ username: "conner", password: "password1234" });
-    const devon = await db("users").where("username", "devon").first();
-    expect(devon).toMatchObject({ username: "devon" });
+    const conner = await db("users").where("username", "conner").first();
+    expect(conner).toMatchObject({ username: "conner" });
   });
   it("saves the registered user with a bcrypted password instead of plain text", async () => {
     await request(server)
