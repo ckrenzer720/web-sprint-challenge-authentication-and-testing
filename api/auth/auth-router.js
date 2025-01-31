@@ -47,10 +47,11 @@ router.post("/register", async (req, res, next) => {
       return res.status(400).json({ message: "username taken" });
     }
     // Hash password
-    const hash = await bcrypt.hash(password, parseInt(BCRYPT_ROUNDS, 8));
+    const hash = await bcrypt.hash(password, 8);
     // Insert new user
-    const newUser = await User.insert({ username, password: hash });
-    return res.status(201).json(newUser);
+    User.insert({ username, password: hash }).then((user) => {
+      res.status(201).json(user);
+    });
   } catch (error) {
     next(error);
   }
