@@ -40,24 +40,17 @@ router.post("/register", async (req, res, next) => {
 
     // Validate input
     if (!username || !password) {
-      return res
-        .status(400)
-        .json({ message: "username and password required" });
+      res.status(400).json({ message: "username and password required" });
     }
-
-    // Check if username exists
-    const existingUser = await User.findBy({ username });
+    const existingUser = await User.findBy({ username }).first();
     if (existingUser) {
       return res.status(400).json({ message: "username taken" });
     }
-
     // Hash password
     const hash = await bcrypt.hash(password, parseInt(BCRYPT_ROUNDS, 8));
-
     // Insert new user
     const newUser = await User.insert({ username, password: hash });
-
-    res.status(201).json(newUser);
+    return res.status(201).json(newUser);
   } catch (error) {
     next(error);
   }
@@ -103,9 +96,7 @@ router.post("/login", async (req, res, next) => {
     }
     // search the database for the user
     const [user] = await User.findBy({ username });
-    // make sure `users` is an array and fetch the first user
-    // const user = users?.length > 0 ? users[0] : null;
-    // 🔹 Validate user and password
+    // validation
     if (user && bcrypt.compareSync(password, user.password)) {
       const token = buildToken(user);
       res.json({ message: `welcome, ${user.username}`, token });
