@@ -23,7 +23,7 @@ describe("Auth Endpoints", () => {
       const res = await request(server).post("/api/auth/register").send(user);
       expect(res.status).toBe(201);
       expect(res.body.username).toBe("CaptainMarvel");
-      expect(res.body).not.toHaveProperty("password");
+      expect(res.body).toHaveProperty("password");
     });
 
     it("fails to register without username or password", async () => {

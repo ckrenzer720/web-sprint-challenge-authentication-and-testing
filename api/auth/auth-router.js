@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const User = require("../users/users-model");
 const bcrypt = require("bcryptjs");
-const { BCRYPT_ROUNDS, JWT_SECRET } = require("../secrets/secrets");
+const { JWT_SECRET } = require("../secrets/secrets");
 const jwt = require("jsonwebtoken");
 
 /* 
@@ -49,8 +49,11 @@ router.post("/register", async (req, res, next) => {
     // Hash password
     const hash = await bcrypt.hash(password, 8);
     // Insert new user
-    User.insert({ username, password: hash }).then((user) => {
-      res.status(201).json(user);
+    const newUser = await User.insert({ username, password: hash });
+    res.status(201).json({
+      id: newUser.id,
+      username: newUser.username, // Ensure `username` is included in the response
+      password: newUser.password, // Hashed password for verification
     });
   } catch (error) {
     next(error);
