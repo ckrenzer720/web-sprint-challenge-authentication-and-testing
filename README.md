@@ -1,42 +1,90 @@
-# Authentication and Testing Sprint Challenge
+# 🔑 **Authentication and Testing Sprint Challenge**
 
-## Tools
+## 📌 **Project Overview**
 
-- Node >= 16.x
-- NPM >= 8.x (update NPM executing `npm i -g npm`)
-- Unix-like shell (Gitbash/bash/zsh)
+The **Dad Joke Authentication App** is a backend application that implements secure user authentication and protected routes using Node.js and Express. It allows users to register, log in, and retrieve dad jokes, ensuring only authenticated users can access the jokes.
 
-## Project Setup
+### **Key Features:**
+- **User Authentication**: Secure registration and login using `bcryptjs` for password hashing and `jsonwebtoken` for authentication.
+- **Protected Routes**: Users must be authenticated to retrieve dad jokes.
+- **Database Integration**: Manages user credentials using a SQL database with migrations.
+- **Automated Testing**: Ensures system reliability with Jest-based unit and integration tests.
 
-- Fork, clone, and `npm install`.
-- Build your database executing `npm run migrate`.
-- Run tests locally executing `npm test`.
+---
 
-## Project Instructions
+## 📂 **Project Structure**
 
-Dad jokes are all the rage these days! In this challenge, you will build a real wise-guy application.
+```
+api/
+│── auth/
+│   ├── auth-router.js   # Handles registration and login
+│   ├── auth-middleware.js  # Middleware for authentication
+│── jokes/
+│   ├── jokes-router.js  # Protected route to access jokes
+│── middleware/
+│   ├── restricted.js    # Middleware to restrict access to authenticated users
+│── server.js           # Application entry point
+│── server.test.js      # API test suite
+migrations/
+│── 20230101010101_users_table.js # Users table migration
+```  
 
-Users must be able to call the `[POST] /api/auth/register` endpoint to create a new account, and the `[POST] /api/auth/login` endpoint to get a token.
+---
 
-We also need to make sure nobody without the token can call `[GET] /api/jokes` and gain access to our dad jokes.
+## 🛠 **Tools Required**
 
-We will hash the user's password using `bcryptjs`, and use JSON Web Tokens and the `jsonwebtoken` library.
+- **Node.js** >= 16.x
+- **NPM** >= 8.x *(Update with `npm i -g npm`)*
+- **Unix-like Shell** *(Gitbash/bash/zsh preferred)*
 
-### MVP
+---
 
-Your finished project must include all of the following requirements (further instructions are found inside each file):
+## ⚙️ **Project Setup**
 
-- [ ] An authentication workflow with functionality for account creation and login, implemented inside `api/auth/auth-router.js`.
-- [ ] Middleware used to restrict access to resources from non-authenticated requests, implemented inside `api/middleware/restricted.js`.
-- [ ] A minimum of 2 tests per API endpoint, written inside `api/server.test.js`.
+### 1️⃣ Clone the Repository
+```sh
+git clone <repo-url>
+cd <project-folder>
+```
 
-**IMPORTANT Notes:**
+### 2️⃣ Install Dependencies
+```sh
+npm install
+```
 
-- Codegrade is running some tests you cannot see in this repo. Make sure to comply with project instructions to the letter!
-- Do not exceed 2^8 rounds of hashing with `bcryptjs`.
-- If you use environment variables make sure to provide fallbacks in the code (e.g. `process.env.SECRET || "shh"`).
-- You are welcome to create additional files but **do not move or rename existing files** or folders.
-- Do not alter your `package.json` file except to install extra libraries. Do not update existing packages.
-- The database already has the `users` table, but if you run into issues, the migration is available.
-- In your solution, it is essential that you follow best practices and produce clean and professional results.
-- Schedule time to review, refine, and assess your work and perform basic professional polishing.
+### 3️⃣ Set Up Database
+```sh
+npm run migrate
+```
+
+### 4️⃣ Run Tests
+```sh
+npm test
+```
+
+### 5️⃣ Start the Application
+```sh
+npm run server
+```
+
+---
+
+## 🔗 **API Endpoints**
+
+### 🛠 **Authentication**
+| Method | Endpoint             | Description              |
+|--------|----------------------|--------------------------|
+| POST   | `/api/auth/register` | Creates a new user       |
+| POST   | `/api/auth/login`    | Logs in a user, returns a token |
+
+### 🎭 **Dad Jokes (Protected Route)**
+| Method | Endpoint     | Description               |
+|--------|-------------|---------------------------|
+| GET    | `/api/jokes` | Returns dad jokes (Auth Required) |
+
+---
+
+
+
+> **This project highlights essential authentication and testing skills, making it an excellent addition to a backend developer's portfolio. 🚀**
+
